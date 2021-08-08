@@ -1,8 +1,8 @@
 class Firefoxpwa < Formula
   desc "Tool to install, manage and use Progressive Web Apps in Mozilla Firefox"
   homepage "https://github.com/filips123/FirefoxPWA"
-  url "https://github.com/filips123/FirefoxPWA/archive/refs/tags/v0.5.2.tar.gz"
-  sha256 "ff62f0339883a2e806a5db1f912affd84fd6cd226dd8b158940fafba06562c75"
+  url "https://github.com/filips123/FirefoxPWA/archive/refs/tags/v1.0.0.tar.gz"
+  sha256 "47cb03a8f5773da235e360655a4ef93203d7d3ed760ebf6013692ec20239c2c1"
   license "MPL-2.0"
   head "https://github.com/filips123/FirefoxPWA.git"
 
@@ -14,6 +14,14 @@ class Firefoxpwa < Formula
     # Prepare the project to work with Homebrew
     ENV["FFPWA_SYSDATA"] = share
     system "bash", "./packages/brew/configure.sh", version, bin, libexec
+
+    # Use vendored OpenSSL so Homebrew does not fail because of unwanted system libraries
+    # NOTE: This will be done in the configure script in future versions
+    on_linux do
+      inreplace "Cargo.toml",
+                "[dependencies]",
+                "[dependencies]\nopenssl = { version = \"0.10\", features = [\"vendored\"] }"
+    end
 
     # Build and install the project
     system "cargo", "install", *std_cargo_args
@@ -50,10 +58,11 @@ class Firefoxpwa < Formula
   end
 
   test do
-    output = shell_output("#{bin}/firefoxpwa site launch 00000000000000000000000000 2>&1", 1)
-    assert_includes output, "Runtime not installed"
+    # Test version so we know if Homebrew configure script correctly sets it
+    assert_match "firefoxpwa #{version}", shell_output("#{bin}/firefoxpwa --version")
 
-    # NOTE: In 1.0.0 and future versions, the output will change to "Site does not exist"
-    # assert_includes output, "Site does not exist"
+    # Test launching non-existing site which should fail
+    output = shell_output("#{bin}/firefoxpwa site launch 00000000000000000000000000 2>&1", 1)
+    assert_includes output, "Site does not exist"
   end
 end
