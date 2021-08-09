@@ -18,6 +18,7 @@ class Firefoxpwa < Formula
     cd "native"
 
     # Prepare the project to work with Homebrew
+    ENV["FFPWA_EXECUTABLES"] = bin
     ENV["FFPWA_SYSDATA"] = share
     system "bash", "./packages/brew/configure.sh", version, bin, libexec
 
