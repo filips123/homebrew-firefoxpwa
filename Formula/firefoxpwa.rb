@@ -18,12 +18,12 @@ class Firefoxpwa < Formula
     cd "native"
 
     # Prepare the project to work with Homebrew
-    ENV["FFPWA_EXECUTABLES"] = bin
-    ENV["FFPWA_SYSDATA"] = share
-    system "bash", "./packages/brew/configure.sh", version, bin, libexec
+    ENV["FFPWA_EXECUTABLES"] = opt_bin
+    ENV["FFPWA_SYSDATA"] = opt_share
+    system "bash", "./packages/brew/configure.sh", version, opt_bin, opt_libexec
 
     # Use vendored OpenSSL so Homebrew does not fail because of unwanted system libraries
-    # NOTE: This will be done in the configure script in future versions
+    # NOTE: This will probably be switched to declaring OpenSSL as dependency in the future
     on_linux do
       inreplace "Cargo.toml",
                 "[dependencies]",
@@ -45,7 +45,7 @@ class Firefoxpwa < Formula
   def caveats
     filename = "firefoxpwa.json"
 
-    source = share
+    source = opt_share
     destination = "/Library/Application Support/Mozilla/NativeMessagingHosts"
 
     on_linux do
@@ -53,14 +53,9 @@ class Firefoxpwa < Formula
     end
 
     <<~EOS
-      Before you can use the browser extension, you will need to manually link the app manifest
-      This is needed because Homebrew formulae cannot access directories outside Homebrew directory
-
-      To link the manifest, run the following commands after the formula is installed:
-      $ sudo mkdir -p #{destination}
-      $ sudo ln -sf "#{source}/#{filename}" "#{destination}/#{filename}"
-
-      #{Tty.red}You will not be able to use the extension until you link the manifest!#{Tty.reset}
+      To use the browser extension, manually link the app manifest with:
+        sudo mkdir -p #{destination}
+        sudo ln -sf "#{source}/#{filename}" "#{destination}/#{filename}"
     EOS
   end
 
