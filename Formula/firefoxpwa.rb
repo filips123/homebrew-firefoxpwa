@@ -14,6 +14,11 @@ class Firefoxpwa < Formula
 
   depends_on "rust" => :build
 
+  on_linux do
+    depends_on "pkg-config" => :build
+    depends_on "openssl@1.1"
+  end
+
   def install
     cd "native"
 
@@ -21,14 +26,6 @@ class Firefoxpwa < Formula
     ENV["FFPWA_EXECUTABLES"] = opt_bin
     ENV["FFPWA_SYSDATA"] = opt_share
     system "bash", "./packages/brew/configure.sh", version, opt_bin, opt_libexec
-
-    # Use vendored OpenSSL so Homebrew does not fail because of unwanted system libraries
-    # NOTE: This will probably be switched to declaring OpenSSL as dependency in the future
-    if OS.linux?
-      inreplace "Cargo.toml",
-                "[dependencies]",
-                "[dependencies]\nopenssl = { version = \"0.10\", features = [\"vendored\"] }"
-    end
 
     # Build and install the project
     system "cargo", "install", *std_cargo_args
@@ -54,7 +51,7 @@ class Firefoxpwa < Formula
 
     <<~EOS
       To use the browser extension, manually link the app manifest with:
-        sudo mkdir -p #{destination}
+        sudo mkdir -p "#{destination}"
         sudo ln -sf "#{source}/#{filename}" "#{destination}/#{filename}"
     EOS
   end
