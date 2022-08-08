@@ -7,9 +7,9 @@ class Firefoxpwa < Formula
   head "https://github.com/filips123/PWAsForFirefox.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/filips123/homebrew-firefoxpwa/releases/download/firefoxpwa-2.0.1"
-    sha256 cellar: :any_skip_relocation, big_sur:      "dbf69bcf3709b62aac59bb84e96c25aa82a77f92fcd7fc0d2e324def81b585b1"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "10b42c1a4c48c52d47da1bf4edf6c27b8b85d09b88ee6fc0912a58f528ce6b61"
+    root_url "https://github.com/filips123/homebrew-firefoxpwa/releases/download/firefoxpwa-2.0.2"
+    sha256 cellar: :any_skip_relocation, big_sur:      "05b0352c9fe3cecf22b346e50c8519e762139b5a73726ec3c271a230c91fe821"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "00568f1cbed291c6082f4922e1a70964b1f5f6ce5ea7bad509a4d471a2c9bcb3"
   end
 
   depends_on "rust" => :build
