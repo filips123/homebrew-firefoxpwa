@@ -1,28 +1,10 @@
-FirefoxPWA - Homebrew
-=====================
+Progressive Web Apps for Firefox - Homebrew
+===========================================
 
-The Homebrew tap for the [FirefoxPWA](https://github.com/filips123/FirefoxPWA) project.
+The old Homebrew tap for the [PWAsForFirefox](https://github.com/filips123/PWAsForFirefox) project.
 
 ## Warning
 
-This repository will be deprecated and eventually removed when/if the formula is merged into `homebrew/core`.
+This tap is no longer maintained, as the formula is available in the official `homebrew/core` repository. If you are still using this tap, remove it and use the official one instead.
 
-## Usage
-
-To activate a tap:
-
-```bash
-brew tap filips123/firefoxpwa
-```
-
-To install a formula:
-
-```bash
-brew install firefoxpwa
-```
-
-To upgrade a formula:
-
-```bash
-brew upgrade firefoxpwa
-```
+This repository has been archived to indicate this. For questions and support regarding the PWAsForFirefox project, use [the official repository](https://github.com/filips123/PWAsForFirefox).
